@@ -1,0 +1,186 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1200px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Political", "id": "EU Climate Reporting Expansion (CSRD)", "label": "EU Climate Reporting Expansion (CSRD)", "physics": false, "shape": "dot", "size": 10, "title": "Political", "x": 694.4154282964107, "y": 235.7222745556518}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Social", "id": "Consumer Awareness and ESG Claims", "label": "Consumer Awareness and ESG Claims", "physics": false, "shape": "dot", "size": 10, "title": "Social", "x": -551.3491921512499, "y": 483.52026440671716}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Political", "id": "EU Corporate Due Diligence (CSDD)", "label": "EU Corporate Due Diligence (CSDD)", "physics": false, "shape": "dot", "size": 10, "title": "Political", "x": 635.0852961085883, "y": 366.6666666666666}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Legal", "id": "Data Privacy in Farm Technologies", "label": "Data Privacy in Farm Technologies", "physics": false, "shape": "dot", "size": 10, "title": "Legal", "x": 551.3491921512501, "y": -483.52026440671705}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Political", "id": "Carbon Border Adjustment Mechanism (CBAM)", "label": "Carbon Border Adjustment Mechanism (CBAM)", "physics": false, "shape": "dot", "size": 10, "title": "Political", "x": 551.3491921512501, "y": 483.5202644067171}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Economic", "id": "AgTech M\u0026A and Consumer Spending", "label": "AgTech M\u0026A and Consumer Spending", "physics": false, "shape": "dot", "size": 10, "title": "Economic", "x": 143.06623614516076, "y": 719.2425389623689}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Political", "id": "California\u0027s Disclosure Laws (SB 253, SB 261)", "label": "California\u0027s Disclosure Laws (SB 253, SB 261)", "physics": false, "shape": "dot", "size": 10, "title": "Political", "x": 820.6727788957583, "y": 278.5808699294067}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Legal", "id": "Liability in Emissions Reporting", "label": "Liability in Emissions Reporting", "physics": false, "shape": "dot", "size": 10, "title": "Legal", "x": 635.0852961085881, "y": -366.66666666666697}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Political", "id": "GHG Protocol Land Sector Guidance", "label": "GHG Protocol Land Sector Guidance", "physics": false, "shape": "dot", "size": 10, "title": "Political", "x": 750.5553499465135, "y": 433.33333333333326}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Technological", "id": "AI-Enhanced Emissions Modeling", "label": "AI-Enhanced Emissions Modeling", "physics": false, "shape": "dot", "size": 10, "title": "Technological", "x": -694.4154282964107, "y": -235.72227455565178}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Environmental", "id": "Soil Data Gaps and Monitoring", "label": "Soil Data Gaps and Monitoring", "physics": false, "shape": "dot", "size": 10, "title": "Environmental", "x": -136.56322541129006, "y": -686.5496962822613}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Economic", "id": "EU ETS Price Variability", "label": "EU ETS Price Variability", "physics": false, "shape": "dot", "size": 10, "title": "Economic", "x": 4.490371596873628e-14, "y": 733.3333333333333}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Technological", "id": "Innovations in Carbon Offsetting", "label": "Innovations in Carbon Offsetting", "physics": false, "shape": "dot", "size": 10, "title": "Technological", "x": -635.0852961085883, "y": -366.6666666666667}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Economic", "id": "Government Funding for AgTech", "label": "Government Funding for AgTech", "physics": false, "shape": "dot", "size": 10, "title": "Economic", "x": -143.06623614516067, "y": 719.2425389623689}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Environmental", "id": "Extreme Weather Disruptions", "label": "Extreme Weather Disruptions", "physics": false, "shape": "dot", "size": 10, "title": "Environmental", "x": -1.2858791391047208e-13, "y": -700.0}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Social", "id": "Farm Size and Tech Adoption", "label": "Farm Size and Tech Adoption", "physics": false, "shape": "dot", "size": 10, "title": "Social", "x": -635.0852961085883, "y": 366.6666666666666}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Social", "id": "Increasing Food Demand Challenges", "label": "Increasing Food Demand Challenges", "physics": false, "shape": "dot", "size": 10, "title": "Social", "x": -694.4154282964107, "y": 235.72227455565192}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Technological", "id": "Precision Agriculture Integrations", "label": "Precision Agriculture Integrations", "physics": false, "shape": "dot", "size": 10, "title": "Technological", "x": -551.3491921512501, "y": -483.5202644067171}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Environmental", "id": "Climate Change Transforming Monitoring", "label": "Climate Change Transforming Monitoring", "physics": false, "shape": "dot", "size": 10, "title": "Environmental", "x": 136.5632254112898, "y": -686.5496962822613}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Environmental", "id": "Biodiversity and Carbon Flux", "label": "Biodiversity and Carbon Flux", "physics": false, "shape": "dot", "size": 10, "title": "Environmental", "x": -156.07225761290294, "y": -784.6282243225843}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Environmental", "id": "Rapid Shifts in Soil Carbon", "label": "Rapid Shifts in Soil Carbon", "physics": false, "shape": "dot", "size": 10, "title": "Environmental", "x": -1.4695761589768238e-13, "y": -800.0}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Technological", "id": "Blockchain in Carbon Markets", "label": "Blockchain in Carbon Markets", "physics": false, "shape": "dot", "size": 10, "title": "Technological", "x": -820.6727788957583, "y": -278.5808699294067}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Legal", "id": "Data Localization Challenges", "label": "Data Localization Challenges", "physics": false, "shape": "dot", "size": 10, "title": "Legal", "x": 694.4154282964107, "y": -235.722274555652}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Legal", "id": "Remote Sensing for Illegal Deforestation", "label": "Remote Sensing for Illegal Deforestation", "physics": false, "shape": "dot", "size": 10, "title": "Legal", "x": 651.5944998151137, "y": -571.4330397533929}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Economic", "id": "Climate Tech Investment Downturn", "label": "Climate Tech Investment Downturn", "physics": false, "shape": "dot", "size": 10, "title": "Economic", "x": 169.07827908064453, "y": 850.0139096827996}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Economic", "id": "Declining Costs in Carbon Monitoring", "label": "Declining Costs in Carbon Monitoring", "physics": false, "shape": "dot", "size": 10, "title": "Economic", "x": 5.306802796305197e-14, "y": 866.6666666666666}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Social", "id": "Urbanization\u0027s Agrifood Effects", "label": "Urbanization\u0027s Agrifood Effects", "physics": false, "shape": "dot", "size": 10, "title": "Social", "x": -651.5944998151136, "y": 571.433039753393}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Social", "id": "Urban and Peri-Urban Agriculture (UPA)", "label": "Urban and Peri-Urban Agriculture (UPA)", "physics": false, "shape": "dot", "size": 10, "title": "Social", "x": -750.5553499465135, "y": 433.33333333333326}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Technological", "id": "Advanced Sensors and 6G-IoT", "label": "Advanced Sensors and 6G-IoT", "physics": false, "shape": "dot", "size": 10, "title": "Technological", "x": -750.5553499465134, "y": -433.3333333333334}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Technological", "id": "Evolving R\u0026D and Patent Trends", "label": "Evolving R\u0026D and Patent Trends", "physics": false, "shape": "dot", "size": 10, "title": "Technological", "x": -651.5944998151137, "y": -571.433039753393}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Environmental", "id": "Net Ecosystem Exchange (NEE)", "label": "Net Ecosystem Exchange (NEE)", "physics": false, "shape": "dot", "size": 10, "title": "Environmental", "x": 156.07225761290263, "y": -784.6282243225844}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Environmental", "id": "Water-Carbon Interlinkages", "label": "Water-Carbon Interlinkages", "physics": false, "shape": "dot", "size": 10, "title": "Environmental", "x": -175.5812898145158, "y": -882.7067523629073}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Environmental", "id": "Earth Observations for Resilience", "label": "Earth Observations for Resilience", "physics": false, "shape": "dot", "size": 10, "title": "Environmental", "x": -1.6532731788489268e-13, "y": -900.0}, {"fixed": {"x": true, "y": true}, "font": {"color": "#2c3e50"}, "group": "Legal", "id": "Protecting IP in Monitoring", "label": "Protecting IP in Monitoring", "physics": false, "shape": "dot", "size": 10, "title": "Legal", "x": 750.5553499465133, "y": -433.3333333333337}]);
+                  edges = new vis.DataSet([{"arrows": "to, from", "color": "#00CED1", "from": "EU Climate Reporting Expansion (CSRD)", "title": "Mutual (Bidirectional) Relationship", "to": "Consumer Awareness and ESG Claims", "width": 1}, {"arrows": "to", "color": "red", "from": "EU Corporate Due Diligence (CSDD)", "title": "Balancing (Negative) Feedback Loop", "to": "Data Privacy in Farm Technologies", "width": 1}, {"arrows": "to", "color": "red", "from": "Carbon Border Adjustment Mechanism (CBAM)", "title": "Balancing (Negative) Feedback Loop", "to": "AgTech M\u0026A and Consumer Spending", "width": 1}, {"arrows": "to", "color": "red", "from": "California\u0027s Disclosure Laws (SB 253, SB 261)", "title": "Balancing (Negative) Feedback Loop", "to": "Liability in Emissions Reporting", "width": 1}, {"arrows": "to", "color": "green", "from": "GHG Protocol Land Sector Guidance", "title": "Reinforcing (Positive) Feedback Loop", "to": "AI-Enhanced Emissions Modeling", "width": 1}, {"arrows": "to", "color": "red", "from": "GHG Protocol Land Sector Guidance", "title": "Balancing (Negative) Feedback Loop", "to": "Soil Data Gaps and Monitoring", "width": 1}, {"arrows": "to", "color": "green", "from": "EU ETS Price Variability", "title": "Reinforcing (Positive) Feedback Loop", "to": "Innovations in Carbon Offsetting", "width": 1}, {"arrows": "to", "color": "green", "from": "Government Funding for AgTech", "title": "Reinforcing (Positive) Feedback Loop", "to": "Extreme Weather Disruptions", "width": 1}, {"arrows": "to, from", "color": "#00CED1", "from": "Government Funding for AgTech", "title": "Mutual (Bidirectional) Relationship", "to": "Farm Size and Tech Adoption", "width": 1}, {"arrows": "to", "color": "green", "from": "Increasing Food Demand Challenges", "title": "Reinforcing (Positive) Feedback Loop", "to": "Precision Agriculture Integrations", "width": 1}, {"arrows": "to, from", "color": "#00CED1", "from": "Innovations in Carbon Offsetting", "title": "Mutual (Bidirectional) Relationship", "to": "Climate Change Transforming Monitoring", "width": 1}, {"arrows": "to, from", "color": "#00CED1", "from": "Innovations in Carbon Offsetting", "title": "Mutual (Bidirectional) Relationship", "to": "Biodiversity and Carbon Flux", "width": 1}, {"arrows": "to", "color": "green", "from": "AI-Enhanced Emissions Modeling", "title": "Reinforcing (Positive) Feedback Loop", "to": "Rapid Shifts in Soil Carbon", "width": 1}, {"arrows": "to", "color": "red", "from": "Blockchain in Carbon Markets", "title": "Balancing (Negative) Feedback Loop", "to": "Data Localization Challenges", "width": 1}, {"arrows": "to", "color": "green", "from": "Biodiversity and Carbon Flux", "title": "Reinforcing (Positive) Feedback Loop", "to": "Remote Sensing for Illegal Deforestation", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": false}, "interaction": {"hover": true, "selectConnectedEdges": true, "hoverConnectedEdges": true, "multiselect": false}, "edges": {"smooth": {"type": "curvedCW", "roundness": 0.2}, "color": {"inherit": false, "opacity": 0.8}, "width": 2, "selectionWidth": 4, "hoverWidth": 4}, "nodes": {"shape": "dot", "margin": 15, "widthConstraint": {"minimum": 180, "maximum": 220}, "heightConstraint": {"minimum": 60}, "font": {"size": 14, "face": "Arial", "multi": true, "align": "center"}, "borderWidth": 2, "borderWidthSelected": 4, "shadow": {"enabled": true}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+        try {
+            var container = document.getElementById("mynetwork");
+            var network = container.getElementsByClassName("vis-network")[0].network;
+            
+            network.on("click", function(params) {
+                if (params.nodes.length > 0) {
+                    var selectedNode = params.nodes[0];
+                    var connectedNodes = network.getConnectedNodes(selectedNode);
+                    var connectedEdges = network.getConnectedEdges(selectedNode);
+                    var updateArray = [];
+                    var edgeUpdateArray = [];
+                    
+                    // Update nodes
+                    network.body.data.nodes.forEach((node) => {
+                        if (node.id === selectedNode || connectedNodes.includes(node.id)) {
+                            updateArray.push({id: node.id, opacity: 1, borderWidth: 4, font: {size: 20}});
+                        } else {
+                            updateArray.push({id: node.id, opacity: 0.2, borderWidth: 2, font: {size: 14}});
+                        }
+                    });
+                    
+                    // Update edges
+                    network.body.data.edges.forEach((edge) => {
+                        if (connectedEdges.includes(edge.id)) {
+                            edgeUpdateArray.push({id: edge.id, width: 4, opacity: 1});
+                        } else {
+                            edgeUpdateArray.push({id: edge.id, width: 2, opacity: 0.1});
+                        }
+                    });
+                    
+                    network.body.data.nodes.update(updateArray);
+                    network.body.data.edges.update(edgeUpdateArray);
+                } else {
+                    // Reset all
+                    var resetNodes = [];
+                    var resetEdges = [];
+                    
+                    network.body.data.nodes.forEach((node) => {
+                        resetNodes.push({id: node.id, opacity: 1, borderWidth: 2, font: {size: 14}});
+                    });
+                    
+                    network.body.data.edges.forEach((edge) => {
+                        resetEdges.push({id: edge.id, width: 2, opacity: 1});
+                    });
+                    
+                    network.body.data.nodes.update(resetNodes);
+                    network.body.data.edges.update(resetEdges);
+                }
+            });
+        } catch (e) {
+            console.error("Error initializing network events:", e);
+        }
+    }, 1000);
+});
+</script>
+</body>
+</html>
