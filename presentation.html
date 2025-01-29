@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Space Systems Map - Presentation View</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: transparent;
+        }
+        #systems-map {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="systems-map"></div>
+    <script>
+        // Load the systems map directly
+        document.getElementById('systems-map').innerHTML = `
+            <iframe 
+                src="systems_map.html" 
+                style="width:100%; height:100%; border:none;" 
+                allowfullscreen="true" 
+                webkitallowfullscreen="true" 
+                mozallowfullscreen="true"
+            ></iframe>
+        `;
+    </script>
+</body>
+</html> 
